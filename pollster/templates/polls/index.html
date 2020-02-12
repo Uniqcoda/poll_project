@@ -13,6 +13,25 @@
   </div>
 </div>
 {% endfor %}
+
+<div class="pagination">
+  <span class="step-links">
+      {% if latest_questions.has_previous %}
+          <a class="btn btn-primary btn-sm" href="?page=1">&laquo;</a>
+          <a class="btn btn-primary btn-sm" href="?page={{ latest_questions.previous_page_number }}">&lt;</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ latest_questions.number }} of {{ latest_questions.paginator.num_pages }}.
+      </span>
+
+      {% if latest_questions.has_next %}
+          <a class="btn btn-primary btn-sm" href="?page={{ latest_questions.next_page_number }}">&gt;</a>
+          <a class="btn btn-primary btn-sm" href="?page={{ latest_questions.paginator.num_pages }}">&raquo;</a>
+      {% endif %}
+  </span>
+</div>
+
 {% else %}
 <p>No Polls Available...</p>
 {% endif %}

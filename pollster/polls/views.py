@@ -2,14 +2,19 @@ from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.urls import reverse
+from django.core.paginator import Paginator
 from .models import Question, Choice
 # Create your views here.
 
 # Get questions and display them
+
+
 def index(request):
-    latest_questions = Question.objects.order_by('pub_date')[:5]
-    context = {'latest_questions': latest_questions}
-    return render(request, 'polls/index.html', context)
+    latest_questions = Question.objects.order_by('pub_date')
+    paginator = Paginator(latest_questions, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'polls/index.html', {'latest_questions': page_obj})
 
 
 # show specific question and choices
