@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-center mb-3">Poll Questions</h1>
+{% if latest_questions %}
+{% for question in latest_questions %}
+<div class="card mb-3">
+  <div class="card-body">
+    <p class="lead">
+      {{ question.question_text }}
+    </p>
+    <a href="{% url 'polls:detail' question.id %}" class="btn btn-primary btn-sm">Vote Now</a>
+    <a href="{% url 'polls:results' question.id %}" class="btn btn-secondary btn-sm">Results</a>
+  </div>
+</div>
+{% endfor %}
+
+<div class="pagination">
+  <span class="step-links">
+      {% if latest_questions.has_previous %}
+          <a class="btn btn-primary btn-sm" href="?page=1">&laquo;</a>
+          <a class="btn btn-primary btn-sm" href="?page={{ latest_questions.previous_page_number }}">&lt;</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ latest_questions.number }} of {{ latest_questions.paginator.num_pages }}.
+      </span>
+
+      {% if latest_questions.has_next %}
+          <a class="btn btn-primary btn-sm" href="?page={{ latest_questions.next_page_number }}">&gt;</a>
+          <a class="btn btn-primary btn-sm" href="?page={{ latest_questions.paginator.num_pages }}">&raquo;</a>
+      {% endif %}
+  </span>
+</div>
+
+{% else %}
+<p>No Polls Available...</p>
+{% endif %}
+
+{% endblock %}
